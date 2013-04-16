@@ -146,21 +146,23 @@
                         if (file.error) {
                             that._adjustMaxNumberOfFiles(1);
                         }
-                        that._transition($(this)).done(
-                            function () {
-                                var node = $(this);
-                                template = that._renderDownload([file])
-                                    .css('height', node.height())
-                                    .replaceAll(node);
-                                that._forceReflow(template);
-                                that._transition(template).done(
-                                    function () {
-                                        data.context = $(this);
-                                        that._trigger('completed', e, data);
-                                    }
-                                );
-                            }
-                        );
+                        if (that) {
+                          that._transition($(this)).done(
+                              function () {
+                                  var node = $(this);
+                                  template = that._renderDownload([file])
+                                      .css('height', node.height())
+                                      .replaceAll(node);
+                                  that._forceReflow(template);
+                                  that._transition(template).done(
+                                      function () {
+                                          data.context = $(this);
+                                          that._trigger('completed', e, data);
+                                      }
+                                  );
+                              }
+                          );
+                        }
                     });
                 } else {
                     template = that._renderDownload(data.result)
